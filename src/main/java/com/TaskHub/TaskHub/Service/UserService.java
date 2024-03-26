@@ -18,4 +18,12 @@ public class UserService {
         }
         return null;
     }
+    public User authenticateByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getEmail().equals(email)) {
+            return user;
+        }
+        return null;
+    }
+
 }

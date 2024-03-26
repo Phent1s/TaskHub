@@ -52,12 +52,12 @@
 
         <form action="/registration" method="post" id="registrationForm">
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
+            <input type="text" id="username" name="username" required><br>
             <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email"><br>
+            <input type="email" id="email" name="email" required><br>
             <label for="password">Password:</label><br>
             <div class="password-toggle">
-                <input style="padding: 10px" type="password" id="password" name="password">
+                <input style="padding: 10px" type="password" id="password" name="password" required>
             </div><br><br>
             <input type="submit" value="Register">
         </form>

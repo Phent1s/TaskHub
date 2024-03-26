@@ -7,10 +7,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.regex.Pattern;
 
 @Controller
 public class RegistrationController {
@@ -37,8 +36,8 @@ public class RegistrationController {
             model.addAttribute("message", "User with the same username or email already exists");
             return "registration"; // Возвращаемся на страницу регистрации с сообщением об ошибке
         }
-        if (!user.getUsername().matches("^[a-zA-Z0-9]+$")) {
-            model.addAttribute("message", "Username should contain only English letters and digits");
+        if (!user.getUsername().matches("^[a-zA-Z]+$")) {
+            model.addAttribute("message", "Username should contain only English letters");
             return "registration";
         }
         if (!user.getPassword().matches(".*[A-Z].*") || !user.getPassword().matches(".*\\d.*")) {
@@ -72,4 +71,40 @@ public class RegistrationController {
             return "login";
         }
     }
+    @GetMapping("/forgot-password")
+    public String showEmailCheck() {
+        return "forgot-password";
+    }
+
+    @PostMapping("/forgot-password")
+    public String changePassword(@RequestParam String email, @RequestParam String newPassword, Model model) {
+        // Проверяем наличие почты в базе данных
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            model.addAttribute("message", "Email not found");
+            return "forgot-password";
+        }
+
+        // Проверяем, содержит ли новый пароль хотя бы одну заглавную букву и одну цифру
+        if (!isValidPassword(newPassword)) {
+            model.addAttribute("message", "Password must contain at least one uppercase letter and one digit");
+            return "forgot-password";
+        }
+
+        // Устанавливаем новый пароль и сохраняем пользователя
+        user.setPassword(newPassword);
+        userRepository.save(user);
+
+        model.addAttribute("message", "Password changed successfully");
+        return "redirect:/login";
+    }
+
+    // Метод для проверки пароля на наличие заглавной буквы и цифры
+    private boolean isValidPassword(String password) {
+        String regex = "^(?=.*[A-Z])(?=.*\\d).+$";
+        return Pattern.compile(regex).matcher(password).matches();
+    }
+
 }
+
+
