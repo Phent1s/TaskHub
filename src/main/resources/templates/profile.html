@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body, html {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 100%;
+        }
+
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .profile-info {
+            margin-bottom: 10px;
+        }
+
+        .profile-info strong {
+            font-weight: bold;
+        }
+
+        .home-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .return-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .return-button a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .return-button a:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .register-link {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>User Profile</h2>
+    <div class="profile-info">
+        <p><strong>Username:</strong> <span th:text="${currentUser.username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${currentUser.email}"></span></p>
+        <p><strong>Registration Date:</strong> <span th:text="${currentUser.createdAt}"></span></p>
+        <p><a href="/forgot-password" class="register-link">Change password</a></p>
+    </div>
+    <div class="return-button">
+        <a href="#" onclick="history.go(-1)">Вернуться</a>
+    </div>
+</div>
+</body>
+</html>
