@@ -18,12 +18,14 @@ public class UserService {
         }
         return null;
     }
-    public User authenticateByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getEmail().equals(email)) {
-            return user;
+    public String getUsernameById(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            return user.getUsername();
+        } else {
+            return "Unknown User"; // Возвращаем это, если пользователь не найден по идентификатору
         }
-        return null;
     }
+
 
 }
