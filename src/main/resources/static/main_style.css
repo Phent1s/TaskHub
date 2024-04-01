@@ -1,0 +1,84 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.logo h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.profile-button a,
+.logout-button a {
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.profile-button a:hover,
+.logout-button a:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+/* Main Content Styles */
+.main-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.project-card {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* добавляем границу */
+}
+
+.project-box {
+    border: 2px solid #ccc; /* Задаем толщину и цвет границы */
+    padding: 20px; /* Добавляем отступы вокруг содержимого */
+    margin: 10px; /* Добавляем отступы между проектами */
+    width: 200px; /* Задаем ширину блока проекта */
+    height: 200px; /* Задаем высоту блока проекта */
+    display: inline-block; /* Размещаем проекты в строку */
+}
+
+.project-box h3 {
+    margin-top: 0; /* Убираем верхний отступ для заголовка */
+}
+
+.project-box p {
+    margin-bottom: 0; /* Убираем нижний отступ для описания */
+}
+

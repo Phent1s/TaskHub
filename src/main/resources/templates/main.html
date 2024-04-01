@@ -1,0 +1,56 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Management</title>
+  <link rel="stylesheet" type="text/css" href="main_style.css">
+  <style>
+    .project-box {
+      border: 2px solid #ccc; /* Задаем толщину и цвет границы */
+      padding: 20px; /* Добавляем отступы вокруг содержимого */
+      margin: 10px; /* Добавляем отступы между проектами */
+      width: 200px; /* Задаем ширину блока проекта */
+      height: 200px; /* Задаем высоту блока проекта */
+      display: inline-block; /* Размещаем проекты в строку */
+    }
+
+    .project-box h3 {
+      margin-top: 0; /* Убираем верхний отступ для заголовка */
+    }
+
+    .project-box p {
+      margin-bottom: 0; /* Убираем нижний отступ для описания */
+    }
+
+  </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<header>
+  <div class="logo">
+    <h1><a href="main">TaskHub</a></h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="add_project">Add project</a></li>
+    </ul>
+  </nav>
+  <div class="profile-button">
+    <a href="profile">Profile</a>
+    <a href="/logout">Log Out</a>
+  </div>
+</header>
+
+<!-- Main Content -->
+<div class="main-content">
+  <h2>Projects</h2>
+  <div th:each="project : ${projects}" class="project-box">
+    <h3 th:text="${project.getProjectName()}">Project Name</h3>
+    <p th:text="${project.description}">Project Description</p>
+  </div>
+</div>
+
+</body>
+</html>
