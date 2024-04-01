@@ -22,7 +22,11 @@ public class Message {
     private String messageContent;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Long getMessageId() {
         return messageId;
@@ -56,17 +60,17 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
     public Message(){
     }
-    public Message(Long messageId, Long projectId, Long userId, String messageContent, Date createdAt) {
+    public Message(Long messageId, Long projectId, Long userId, String messageContent, LocalDateTime createdAt) {
         this.messageId = messageId;
         this.projectId = projectId;
         this.userId = userId;

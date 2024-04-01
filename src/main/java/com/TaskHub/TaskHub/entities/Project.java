@@ -1,6 +1,8 @@
 package com.TaskHub.TaskHub.entities;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -21,7 +23,12 @@ public class Project {
     private Long createdBy;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     // Геттеры и сеттеры
 
@@ -57,11 +64,11 @@ public class Project {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -69,7 +76,7 @@ public class Project {
 
     }
 
-    public Project(Long projectId, String projectName, String description, Long createdBy, Date createdAt) {
+    public Project(Long projectId, String projectName, String description, Long createdBy, LocalDateTime createdAt) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.description = description;
