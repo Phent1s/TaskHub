@@ -120,8 +120,11 @@ public class RegistrationController {
         return "redirect:/main";
     }
     @PostMapping("/add_task")
-    public String saveTask(@ModelAttribute("task")Task task, Model model){
-        taskRepository.save(task);
+    public String saveTask(Model model,@RequestParam String projectName,@RequestParam String TaskName, @RequestParam String TaskDescription){
+        Project project = projectRepository.findByProjectName(projectName);
+        project.setTaskName(TaskName);
+        project.setTaskDescription(TaskDescription);
+        projectRepository.save(project);
         model.addAttribute("message", "Submitted Successfully");
         return ("redirect:/main");
     }
@@ -133,13 +136,6 @@ public class RegistrationController {
         return "main"; // Возвращаем имя вашего Thymeleaf-шаблона
     }
 
-    @ModelAttribute
-    public String getAllTasks(Model model){
-        List<Task> tasks = taskService.getAllTasks();
-        model.addAttribute("tasks", tasks);
-        return ("main");
-
-    }
 
 
     @PostMapping("/registration")
