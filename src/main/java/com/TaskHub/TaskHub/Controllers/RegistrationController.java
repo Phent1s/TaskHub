@@ -2,11 +2,14 @@ package com.TaskHub.TaskHub.Controllers;
 
 import com.TaskHub.TaskHub.Service.MessageService;
 import com.TaskHub.TaskHub.Service.ProjectService;
+import com.TaskHub.TaskHub.Service.TaskService;
 import com.TaskHub.TaskHub.Service.UserService;
 import com.TaskHub.TaskHub.entities.Message;
 import com.TaskHub.TaskHub.entities.Project;
+import com.TaskHub.TaskHub.entities.Task;
 import com.TaskHub.TaskHub.entities.User;
 import com.TaskHub.TaskHub.repo.ProjectRepository;
+import com.TaskHub.TaskHub.repo.TaskRepository;
 import com.TaskHub.TaskHub.repo.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,18 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private TaskService taskService;
+
     @GetMapping("/registration")
     public String getRegistrationPage(@ModelAttribute("user") User user) {
         return "registration";
@@ -39,6 +54,53 @@ public class RegistrationController {
         return "add_project";
     }
 
+    @GetMapping("/add_task")
+    public String getAddTaskPage(@ModelAttribute("task")Task task){
+        return "add_task";
+    }
+
+    @GetMapping("/home")
+    public String getHomePage(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("newMessage", new Message()); // Инициализируем объект нового сообщения
+        return "home";
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
+    }
+
+    @GetMapping("/forgot-password")
+    public String showEmailCheck() {
+        return "forgot-password";
+    }
+
+
+    @GetMapping("/main")
+    public String showMainPage() {
+        return "main";
+    }
+
+    @GetMapping("/profile")
+    public String userProfile() {
+        return "profile";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        session.setAttribute("authenticated", false);
+        return "redirect:/home";
+    }
+
+
+    @GetMapping("/")
+    public String message(Model model) {
+        model.addAttribute("messages", messageService.getAllMessages());
+        model.addAttribute("newMessage", new Message()); // Добавляем новый объект сообщения в модель
+        model.addAttribute("userService", userService); // Передаем сервис пользователей в представление
+        return "main"; // Возвращаем имя вашего Thymeleaf-шаблона
+    }
     // Ваш контроллер
     @PostMapping("/add_project")
     public String saveProject(@ModelAttribute("project") Project project, HttpSession session, Model model) {
@@ -57,12 +119,28 @@ public class RegistrationController {
         // Редирект на главную страницу
         return "redirect:/main";
     }
-
-    @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("newMessage", new Message()); // Инициализируем объект нового сообщения
-        return "home";
+    @PostMapping("/add_task")
+    public String saveTask(@ModelAttribute("task")Task task, Model model){
+        taskRepository.save(task);
+        model.addAttribute("message", "Submitted Successfully");
+        return ("redirect:/main");
     }
+
+    @ModelAttribute
+    public String getAllProjects(Model model) {
+        List<Project> projects = projectService.getAllProjects();
+        model.addAttribute("projects", projects);
+        return "main"; // Возвращаем имя вашего Thymeleaf-шаблона
+    }
+
+    @ModelAttribute
+    public String getAllTasks(Model model){
+        List<Task> tasks = taskService.getAllTasks();
+        model.addAttribute("tasks", tasks);
+        return ("main");
+
+    }
+
 
     @PostMapping("/registration")
     public String saveUser(@ModelAttribute("user") User user, Model model) {
@@ -89,10 +167,6 @@ public class RegistrationController {
 
 
     //  LOGIN PANEL
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
-    }
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
@@ -105,10 +179,6 @@ public class RegistrationController {
             model.addAttribute("message", "Authentication failed");
             return "login";
         }
-    }
-    @GetMapping("/forgot-password")
-    public String showEmailCheck() {
-        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
@@ -145,47 +215,11 @@ public class RegistrationController {
         return (User) session.getAttribute("user");
     }
 
-    @GetMapping("/main")
-    public String showMainPage() {
-        return "main";
-    }
-    @GetMapping("/profile")
-    public String userProfile() {
-        return "profile";
-    }
-
-    @GetMapping("/logout")
-        public String logout(HttpSession session) {
-            session.removeAttribute("user");
-            session.setAttribute("authenticated", false);
-            return "redirect:/home";
-        }
-
-    @Autowired
-    private MessageService messageService;
-
-
-    @GetMapping("/")
-    public String message(Model model) {
-        model.addAttribute("messages", messageService.getAllMessages());
-        model.addAttribute("newMessage", new Message()); // Добавляем новый объект сообщения в модель
-        model.addAttribute("userService", userService); // Передаем сервис пользователей в представление
-        return "main"; // Возвращаем имя вашего Thymeleaf-шаблона
-    }
 
     @PostMapping("/addMessage")
     public String addMessage(Message message) {
         messageService.addMessage(message);
         return "redirect:/main";
-    }
-
-    @Autowired
-    private ProjectService projectService;
-    @ModelAttribute
-    public String getAllProjects(Model model) {
-        List<Project> projects = projectService.getAllProjects();
-        model.addAttribute("projects", projects);
-        return "home"; // Возвращаем имя вашего Thymeleaf-шаблона
     }
 }
 
