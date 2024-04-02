@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add tasks</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <style>
+        body, html {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 100%;
+        }
+
+        .outer-container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .inner-container {
+            width: 300px;
+            text-align: center;
+        }
+
+        .home-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="outer-container">
+    <div class="inner-container">
+        <h2>Create a task</h2>
+
+        <form action="/add_task" method="post" id="addTaskForm">
+            <label for="projectName">Project name:</label><br>
+            <input type="text" id="projectName" name="projectName" required><br>
+            <label for="TaskName">Task name:</label><br>
+            <input type="text" id="TaskName" name="TaskName" required><br>
+            <label for="TaskDescription">Description:</label><br>
+            <input type="text" id="TaskDescription" name="TaskDescription" required><br>
+            <br><br>
+            <input type="submit" value="Create">
+        </form>
+        <br>
+        <p>Go back to <a href="/main" class="home-link">Main Page</a></p>
+    </div>
+
+</div>
+</body>
+</html>
