@@ -24,6 +24,11 @@
       margin-bottom: 0; /* Убираем нижний отступ для описания */
     }
 
+    .task-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
@@ -49,6 +54,8 @@
   <div th:each="project : ${projects}" class="project-box">
     <h3 th:text="${project.getProjectName()}">Project Name</h3>
     <p th:text="${project.description}">Project Description</p>
+    <p th:text="${task.description}">Project Description</p>
+    <a href="/add_task" class="task-link">Home</a>
   </div>
 </div>
 
