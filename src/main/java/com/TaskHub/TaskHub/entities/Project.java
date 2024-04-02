@@ -25,6 +25,14 @@ public class Project {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "task_name")
+    private String taskName;
+
+
+
+    @Column(name = "task_description")
+    private String taskDescription;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -72,15 +80,32 @@ public class Project {
         this.createdAt = createdAt;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
     public Project(){
 
     }
 
-    public Project(Long projectId, String projectName, String description, Long createdBy, LocalDateTime createdAt) {
+    public Project(Long projectId, String projectName, String description, Long createdBy, LocalDateTime createdAt, String taskName, String taskDescription) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.description = description;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
+        this.taskName = taskDescription;
     }
 }
